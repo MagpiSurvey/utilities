@@ -5,6 +5,8 @@ def reconstruct_lsf(wavelengths, resolution_file, ext=1, reconstruct_full=False)
     """
     Reconstruct the median line spread function (LSF) for MAGPI data as a function of wavelength. 
     Optionally can be used to reconstruct the full spatially-variying LSF.
+    
+    Returns the second moment of the LSF in Angtroms.
 
     Parameters
     ----------

@@ -1,7 +1,7 @@
 from astropy.io import fits
 import numpy as np
 
-def reconstruct_lsf(wavelengths, resolution_file, ext=1, reconstruct_full=False):
+def reconstruct_lsf(wavelengths, resolution_file, ext=3, reconstruct_full=False):
     """
     Reconstruct the median line spread function (LSF) for MAGPI data as a function of wavelength. 
     Optionally can be used to reconstruct the full spatially-variying LSF.

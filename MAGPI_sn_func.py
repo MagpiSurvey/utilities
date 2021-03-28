@@ -5,7 +5,7 @@ def MAGPI_sn_func(index, signal=None, noise=None):
   Return the S/N of of a bin with spaxles given by "index".
   
   This is a simple adaptation of the default sn_func used by 
-  VorBin (https://pypi.org/project/vorbin) that includes an additional
+  VorBin (https://pypi.org/project/vorbin) to include an additional
   scaling of the binned S/N to account for spatial covariance in the 
   reconstructed MAGPI data (see Mendel et al. in prep).
   """

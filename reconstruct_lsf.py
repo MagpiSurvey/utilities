@@ -1,7 +1,8 @@
 from astropy.io import fits
 import numpy as np
 
-def reconstruct_lsf(wavelengths, resolution_file, ext=3, reconstruct_full=False):
+def reconstruct_lsf(wavelengths, resolution_file, ext=3, reconstruct_full=False, 
+                    normalize_wavelength=True):
     """
     Reconstruct the median line spread function (LSF) for MAGPI data as a function of wavelength. 
     Optionally can be used to reconstruct the full spatially-variying LSF.
@@ -24,6 +25,11 @@ def reconstruct_lsf(wavelengths, resolution_file, ext=3, reconstruct_full=False)
         If True, reconstruct the LSF at every spatial position across the field.  Otherwise
         just return the spatially-averaged LSF. (default: False)
 
+    normalize_wavelength: boolean
+        If True, the polynomial is reconstructed on a wavelength scale normalised
+        between -1 and 1. Otherwise, reconstruction is done using the native wavelength
+        array (in Angstroms). (default: True)
+
     """
     
     #make sure that single values are made to conform to the array requirements
@@ -34,8 +40,11 @@ def reconstruct_lsf(wavelengths, resolution_file, ext=3, reconstruct_full=False)
     wave_range = np.array([res_header['MAGPI LSF WMIN'], res_header['MAGPI LSF WMAX']])
 
     #compute normalized wavelengths for reconstruction
-    norm_wavelength = (wavelengths - wave_range.mean())*2/wave_range.ptp()
-    
+    if normalize_wavelength:
+        norm_wavelength = (wavelengths - wave_range.mean())*2/wave_range.ptp()
+    else:
+        norm_wavelength = np.copy(wavelengths)
+        
     wstack = np.vstack((norm_wavelength**2, norm_wavelength, np.ones_like(norm_wavelength)))
     if reconstruct_full: #generate the full LSF
         poly_coeffs = fits.getdata(resolution_file, ext=ext)
